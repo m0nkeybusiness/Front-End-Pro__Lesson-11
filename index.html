@@ -16,8 +16,8 @@
             this.dateOfBirth = dateOfBirth; // дата рождения
             this.marksList = []; // массив в оценками
             this.attendance = []; // массив посещений
-            this.present = () => this.attendance.length < 5 ? this.attendance.push(true) : console.log('Error'); //метод посещения
-            this.absent = () => this.attendance.length < 5 ? this.attendance.push(false) : console.log('Error'); // метод посещения
+            this.present = () => this.attendance.length < 30 ? this.attendance.push(true) : console.log('Error'); //метод посещения
+            this.absent = () => this.attendance.length < 30 ? this.attendance.push(false) : console.log('Error'); // метод посещения
 
             this.getAge = function () {//Получение возраста
                 let today = new Date(),
@@ -43,32 +43,40 @@
                 }
             };
 
-
-            this.getAverage = function (average) { //получение среднего бала и посещения
-                return this.average.reduce((a, b) => a + b) / this.average.length;
-            };
-
+            this.getAverage = average => average.reduce((a, b) => a + b) / average.length;
 
             this.summary = function () { // Получение сообщения в зависимости от средней оценки посещений и оценок
                 const aveMark = this.getAverage(this.marksList);
                 const aveAttend = this.getAverage(this.attendance);
-                let message = '';
                 if (aveMark < 9 && aveAttend < 0.9) {
-                    return message = 'Bad!';
+                    return  'Bad!';
                 } else if (aveMark < 9 || aveAttend < 0.9) {
-                    return message = 'Not Bad!';
+                    return 'Not Bad!';
                 } else {
-                    return message = 'Good';
+                    return 'Good';
                 }
             }
         }
 
         let firstPerson = new Student('Oleg', 'Cherbaiev', '15.03.1993');
-        firstPerson.mark(8);
 
 
         console.log(firstPerson.getAge());
-
+        firstPerson.mark(10);
+        firstPerson.mark(10);
+        firstPerson.mark(10);
+        firstPerson.mark(10);
+        console.log(firstPerson.marksList);
+        firstPerson.present();
+        firstPerson.present();
+        firstPerson.present();
+        firstPerson.present();
+        firstPerson.present();
+        firstPerson.present();
+        firstPerson.present();
+        console.log(firstPerson.attendance);
+        console.log(firstPerson.getAverage(firstPerson.attendance));
+        console.log(firstPerson.summary());
     </script>
 
 </body>
