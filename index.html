@@ -9,75 +9,94 @@
 </head>
 
 <body>
-    <script>
-        function Student(name, lastName, dateOfBirth) {
-            this.name = name; // имя
-            this.lastName = lastName; // фамилия
-            this.dateOfBirth = dateOfBirth; // дата рождения
-            this.marksList = []; // массив в оценками
-            this.attendance = []; // массив посещений
-            this.present = () => this.attendance.length < 30 ? this.attendance.push(true) : console.log('Error'); //метод посещения
-            this.absent = () => this.attendance.length < 30 ? this.attendance.push(false) : console.log('Error'); // метод посещения
+<script>
+    function Student(name, lastName, dateOfBirth) {
+        this.name = name; // имя
+        this.lastName = lastName; // фамилия
+        this.dateOfBirth = dateOfBirth; // дата рождения
+        this.marksList = new Array(30); // массив в оценками
+        this.marksListIndex = 0;
+        this.attendance = new Array(30); // массив посещений
+        this.attendanceIndex = 0;
 
-            this.getAge = function () {//Получение возраста
-                let today = new Date(),
-                    suitableValue = this.dateOfBirth.split('.').map((i => Number(i))).reverse();
-                    birthDate = new Date(suitableValue),
-                    age = today.getFullYear() - birthDate.getFullYear(),
-                    m = today.getMonth() - birthDate.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
-                return age;
-            };
+        this.present = function () { //метод посещения
+            if (this.attendance.length > this.attendanceIndex) {
+                this.attendance[this.attendanceIndex] = true;
+                this.attendanceIndex++;
+            }
+        };
+        this.absent = function () {
+            if (this.attendance.length > this.attendanceIndex) {
+                this.attendance[this.attendanceIndex] = false;
+                this.attendanceIndex++;
+            }
+        }; // метод посещения
 
-            this.mark = function (num) { // Добавление оценок в массив с оценками
-                if (this.marksList.length < 30) {
-                    if (num >= 0 && num <= 10) {
-                        this.marksList.push(num);
-                    } else {
-                        console.log('Wrong value');
-                    }
-                } else {
-                    console.log('The array is full');
-                }
-            };
+        this.getAge = function () {//Получение возраста
+            let today = new Date(),
+                suitableValue = this.dateOfBirth.split('.').map((i => Number(i))).reverse();
+            birthDate = new Date(suitableValue),
+                age = today.getFullYear() - birthDate.getFullYear(),
+                m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        };
 
-            this.getAverage = average => average.reduce((a, b) => a + b) / average.length;
-
-            this.summary = function () { // Получение сообщения в зависимости от средней оценки посещений и оценок
-                const aveMark = this.getAverage(this.marksList);
-                const aveAttend = this.getAverage(this.attendance);
-                if (aveMark < 9 && aveAttend < 0.9) {
-                    return  'Bad!';
-                } else if (aveMark < 9 || aveAttend < 0.9) {
-                    return 'Not Bad!';
-                } else {
-                    return 'Good';
+        this.mark = function (num) {  // Добавление оценок в массив с оценками
+            for (let i = 0; i < this.marksList.length; i++) {
+                if (this.marksList[i] === undefined) {
+                    this.marksList[i] = num;
+                    break;
                 }
             }
+            return this.marksList;
         }
 
-        let firstPerson = new Student('Oleg', 'Cherbaiev', '15.03.1993');
+        this.getAverage = average => average.reduce((a, b) => a + b) / average.length;
+
+        this.summary = function () { // Получение сообщения в зависимости от средней оценки посещений и оценок
+            const aveMark = this.getAverage(this.marksList);
+            const aveAttend = this.getAverage(this.attendance);
+            if (aveMark < 9 && aveAttend < 0.9) {
+                return 'Bad!';
+            } else if (aveMark < 9 || aveAttend < 0.9) {
+                return 'Not Bad!';
+            } else {
+                return 'Good';
+            }
+        }
+    }
+
+    let firstPerson = new Student('Oleg', 'Cherbaiev', '15.03.1993');
 
 
-        console.log(firstPerson.getAge());
-        firstPerson.mark(10);
-        firstPerson.mark(10);
-        firstPerson.mark(10);
-        firstPerson.mark(10);
-        console.log(firstPerson.marksList);
-        firstPerson.present();
-        firstPerson.present();
-        firstPerson.present();
-        firstPerson.present();
-        firstPerson.present();
-        firstPerson.present();
-        firstPerson.present();
-        console.log(firstPerson.attendance);
-        console.log(firstPerson.getAverage(firstPerson.attendance));
-        console.log(firstPerson.summary());
-    </script>
+    console.log(firstPerson.getAge());
+    firstPerson.mark(10);
+    firstPerson.mark(10);
+    firstPerson.mark(10);
+    firstPerson.mark(10);
+    firstPerson.mark(8);
+    firstPerson.mark(6);
+    console.log(firstPerson.marksList);
+    firstPerson.present();
+    firstPerson.present();
+    firstPerson.present();
+    firstPerson.present();
+    firstPerson.present();
+    firstPerson.present();
+    firstPerson.present();
+    firstPerson.absent();
+    firstPerson.absent();
+    firstPerson.absent();
+    firstPerson.absent();
+    console.log(firstPerson.attendance);
+    console.log(firstPerson.getAverage(firstPerson.attendance));
+    console.log(firstPerson.summary());
+
+
+</script>
 
 </body>
 
